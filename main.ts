@@ -335,6 +335,16 @@ const ROWS_TOP = 174;
 const ROW_H = 110;
 const ROW_GAP = 5;
 
+// Gold "TOP STORY" badge drawn next to the category chip of the first card
+// (the day's biggest story). Same 20 px height as the chip, navy text on gold.
+function drawTopStoryBadge(cv: Canvas, chipY: number, chipW: number): void {
+  const badgeText = "TOP STORY";
+  const badgeW = textWidth(badgeText, 2) + 16;
+  const badgeX = TEXT_X + chipW + 10;
+  cv.rect(badgeX, chipY, badgeW, 20, GOLD);
+  drawText(cv, badgeText, badgeX + 8, chipY + 3, 2, NAVY);
+}
+
 function renderEntry(): Canvas {
   const cv = new Canvas();
   cv.fill(CREAM);
@@ -369,6 +379,11 @@ function renderEntry(): Canvas {
       2,
       s.darkText ? NAVY : WHITE,
     );
+
+    // Mark the first card as the day's top story.
+    if (i === 0) {
+      drawTopStoryBadge(cv, chipY, chipW);
+    }
 
     // Headline, one line, scale 5.
     drawText(cv, s.headline, TEXT_X, y + 28, 5, INK);
